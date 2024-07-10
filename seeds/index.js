@@ -6,6 +6,7 @@ const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 mbxGeocoding({ accessToken: mapBoxToken });
 const axios = require("axios");
 const key = process.env.API_KEY;
+
 // const mainAuth = process.env.OWNER_ID;
 const { cloudinary } = require("../cloudinary");
 const {reverseGeo} = require("../tools/index");
@@ -65,56 +66,128 @@ async function upload(images, camp){
     }
 }
 
+
 const seedDB = async () => {
-    User.findByIdAndUpdate(mainAuth, {$set: {campgrounds: []}});
+    // Reset the campgrounds array for the main author in the User collection
+    User.findByIdAndUpdate(mainAuth, { $set: { campgrounds: [] } });
+
     try {
+        // Delete all existing campgrounds in the Campground collection
         await Campground.deleteMany({});
 
-
+        // Process data from an external source
         const res = await processDatas();
-        res.data.data.forEach( async (camp) => {
-            if(camp.images[0]){
+
+        // Iterate over each camp in the processed data
+        res.data.data.forEach(async (camp) => {
+            // Only proceed if the camp has at least one image
+            if (camp.images[0]) {
+                // Generate a random price between 10 and 30 if no cost is specified
                 const price = Math.floor(Math.random() * 20) + 10;
+                
+                // Create a new Campground instance
                 const campground = new Campground({
-                author: mainAuth,
-                //do reverse lookup here!!!!!from the coordinates if no address available
-                location: camp.addresses[0] ? 
-                    `${camp.addresses[0].line1} ${camp.addresses[0].city} ${camp.addresses[0].stateCode}`: 
-                    await reverseGeo([Number.parseFloat( camp.longitude, 10), Number.parseFloat( camp.latitude, 10)]),
+                    author: mainAuth,
 
-                title: camp.name,
+                    // Determine the location from the address or perform reverse geolocation
+                    location: camp.addresses[0] ? 
+                        `${camp.addresses[0].line1} ${camp.addresses[0].city} ${camp.addresses[0].stateCode}` : 
+                        await reverseGeo([Number.parseFloat(camp.longitude, 10), Number.parseFloat(camp.latitude, 10)]),
 
-                description: camp.description,
-                //assign a random price if there is no cost
-                price: camp.fees[0] ? camp.fees[0].cost : price,
+                    title: camp.name,
+                    description: camp.description,
 
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        camp.longitude,
-                        camp.latitude
-                    ]
-                }
-                }) 
+                    // Use the provided fee cost or the random price
+                    price: camp.fees[0] ? camp.fees[0].cost : price,
+
+                    // Set the geographical coordinates
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [
+                            camp.longitude,
+                            camp.latitude
+                        ]
+                    }
+                });
+
+                // Upload images and associate them with the campground -- we are sending bunch of images
                 await upload(camp.images.map(img => img.url), campground);
-                await User.findByIdAndUpdate(mainAuth, {$push:{campgrounds: campground}});
-                if(campground.success !== 'fail') {
+
+                // Update the main author's campgrounds array with the new campground
+                await User.findByIdAndUpdate(mainAuth, { $push: { campgrounds: campground } });
+
+                // Save the campground to the database if it was successfully created
+                if (campground.success !== 'fail') {
                     await campground.save();
                 }
-                // await campground.save();
-                
             }
-        })
+        });
 
     } catch (error) {
-        console.log("TIMEOUT:", error)
+        // Log any errors that occur during the seeding process
+        console.log("TIMEOUT:", error);
     }
 }
 
+// Execute the seedDB function and handle completion or errors
 seedDB()
     .then(() => {
-        console.log('done')
+        console.log('done');
     })
     .catch(e => {
-        console.log("ERROR SEEDING", e)
-    })
+        console.log("ERROR SEEDING", e);
+    });
+
+// const seedDB = async () => {
+//     User.findByIdAndUpdate(mainAuth, {$set: {campgrounds: []}});
+//     try {
+//         await Campground.deleteMany({});
+
+
+//         const res = await processDatas();
+//         res.data.data.forEach( async (camp) => {
+//             if(camp.images[0]){
+//                 const price = Math.floor(Math.random() * 20) + 10;
+//                 const campground = new Campground({
+//                 author: mainAuth,
+//                 //do reverse lookup here!!!!!from the coordinates if no address available
+//                 location: camp.addresses[0] ? 
+//                     `${camp.addresses[0].line1} ${camp.addresses[0].city} ${camp.addresses[0].stateCode}`: 
+//                     await reverseGeo([Number.parseFloat( camp.longitude, 10), Number.parseFloat( camp.latitude, 10)]),
+
+//                 title: camp.name,
+
+//                 description: camp.description,
+//                 //assign a random price if there is no cost
+//                 price: camp.fees[0] ? camp.fees[0].cost : price,
+
+//                 geometry: {
+//                     type: 'Point',
+//                     coordinates: [
+//                         camp.longitude,
+//                         camp.latitude
+//                     ]
+//                 }
+//                 }) 
+//                 await upload(camp.images.map(img => img.url), campground);
+//                 await User.findByIdAndUpdate(mainAuth, {$push:{campgrounds: campground}});
+//                 if(campground.success !== 'fail') {
+//                     await campground.save();
+//                 }
+//                 // await campground.save();
+                
+//             }
+//         })
+
+//     } catch (error) {
+//         console.log("TIMEOUT:", error)
+//     }
+// }
+
+// seedDB()
+//     .then(() => {
+//         console.log('done')
+//     })
+//     .catch(e => {
+//         console.log("ERROR SEEDING", e)
+//     })

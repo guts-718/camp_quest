@@ -1,4 +1,4 @@
-# YelpCamp United States
+# CampQuest United States
 This is my first full stack CRUD project that allows users to view, post, edit, delete, and leave reviews on the campgrounds. 
 <br><br>
 <b>Features that I added/will be added on top of Colt Steele's Web Development Bootcamp: </b>
@@ -12,7 +12,7 @@ This is my first full stack CRUD project that allows users to view, post, edit, 
 
 
 ## 🔨Stacks
-YelpCamp is built with **MEN** (*Mongo, Express, and Node*) stack.
+CampQuest is built with **MEN** (*Mongo, Express, and Node*) stack.
 
 
 ## 👀 Previews
@@ -68,55 +68,3 @@ YelpCamp is built with **MEN** (*Mongo, Express, and Node*) stack.
 6.  #### Axios
 7.  #### Joi
 
-
-## 💻 To run on your local machine:
-### Prerequisties:
-1. You should have the following installed on your machine:
-- Node
-- Mongo
-- Git
-- VS Code
-2. You should have the following accounts to gain access to keys, and tokens required for the project:
-- Cloudinary
-- Mapbox
-- NPS
-  
-### Steps:
-1. On the main repository, click the green Code button and copy the SSH. 
-
-2. Go or create a directory where you want the repository to be included then type this script on your terminal:
-```
-git clone [SSH HERE]
-```
-3. Open the cloned repository on VS Code.
-4. On your terminal, download all the dependencies by typing
-   `npm i` or `npm install`
-5. Create a .env file to store the required keys for the project
-
-    *replace value with the appropriate keys from the required accounts mentioned in the prerequisites*
- ```
-CLOUDINARY_CLOUD_NAME=[value]
-CLOUDINARY_KEY=[value]
-CLOUDINARY_SECRET=[value]
-MAPBOX_TOKEN=[value]
-API_KEY=[value]
-OWNER_ID=[value]
-```
-
-6. Open a new terminal and type `mongod` to connect the projects on your local database. The project will not start until this is not opened ⚠️
-7. Now to seeds your database, on the previous terminal, type 
- ```
- node seeds/index.js
-``` 
-8. _(After getting a response of done on your terminal, wait for 3-8 seconds to let all the campgrounds' images get uploaded to cloudinary)._
-9. Hit **CTRL+C** to exit the current process.
-10. Now, you are ready to run the program by typing either of the script on your terminal:
-```
-node app.js
-```
-  or _(recommended)_
-```
-nodemon app.js
-``` 
-<br>
-11. Once you see "Database connected", go to your preferred browser, then go to *localhost:3000*

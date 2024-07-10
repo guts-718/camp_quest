@@ -19,8 +19,11 @@ const userRoutes = require('./routes/users')
 const campgroundRoutes = require('./routes/campgrounds')
 const reviewRoutes = require('./routes/reviews')
 
+// mongoSanitize is a middleware used to sanitize user-supplied data to prevent MongoDB Operator Injection.
+// Purpose: Prevents injection attacks by removing any keys that start with $ or contain a . from input data
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require("helmet");
+// helmet is a collection of middleware functions that set various HTTP headers to help protect the app from some well-known web vulnerabilities
 
 const MongoDBStore = require("connect-mongo");
 
@@ -42,6 +45,8 @@ mongoose.connect(dbUrl)
     db.once("open", () => {
         console.log("Database connected");
     });
+
+    
 app.use(cookieParser());
 app.engine('ejs', ejsMate);//for boilerplate embedding
 app.set('view engine', 'ejs');

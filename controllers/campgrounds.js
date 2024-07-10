@@ -126,6 +126,7 @@ module.exports.createCamground = async (req, res, next) => {
     
     await campground.save();
     await loggedUser.save();
+    
     req.flash('success', 'Successfully made a new campground!');
     res.redirect(`/campgrounds/${campground._id}`);
 }

@@ -1,7 +1,8 @@
 const User = require("../models/user")
 
+// USER REGISTER
 module.exports.renderRegister = (req, res) => {
-    res.render('users/register')
+    res.render('users/register') //renders page present in views/users/register.js
 }
 
 module.exports.register = async(req, res) => {
@@ -11,7 +12,7 @@ module.exports.register = async(req, res) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if(err) return next(err);
-            req.flash('success', 'Welcome to YelpCamp')
+            req.flash('success', 'Welcome to CampQuest')
             res.redirect('/campgrounds')
         })
     } catch (e) {//instead of stopping the cycle via next, just redirect
@@ -20,6 +21,7 @@ module.exports.register = async(req, res) => {
     }
 }
 
+// USER LOGIN
 module.exports.renderLogin = (req, res) => {
     res.render('users/login')
 }
