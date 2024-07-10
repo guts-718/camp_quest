@@ -14,49 +14,6 @@ This is my first full stack CRUD project that allows users to view, post, edit, 
 ## 🔨Stacks
 CampQuest is built with **MEN** (*Mongo, Express, and Node*) stack.
 
-
-## 👀 Previews
-#### Login
-<img src="assets/imgs/login.png" width="90%" alt="Home page">
-
-#### Login (dark mode)
-<img src="assets/imgs/logindark.png" width="90%" alt="Home page">
-
-#### Register
-<img src="assets/imgs/register.png" width="90%" alt="Home page">
-
-#### Register (dark mode)
-<img src="assets/imgs/registerdark.png" width="90%" alt="Home page">
-
-#### Homepage
-<img src="assets/imgs/homepage.png" width="100%" alt="Home page">
-
-#### All Campgrounds
-<img src="assets/imgs/allcmplight.png" width="100%" alt="Home page">
-
-#### All Campgrounds
-<img src="assets/imgs/allcmplight2.png" width="100%" alt="Home page">
-
-#### All Campgrounds (dark mode)
-<img src="assets/imgs/allcmpdark.png" width="100%" alt="Home page">
-
-#### All Campgrounds (dark mode)
-<img src="assets/imgs/allcmpdark2.png" width="100%" alt="Home page">
-
-#### Show a Campground
-<img src="assets/imgs/showcmp.png" width="100%" alt="Home page">
-
-#### Show a Campground (dark mode)
-<img src="assets/imgs/showcmpdark.png" width="100%" alt="Home page">
-
-#### Edit a Campground
-<img src="assets/imgs/edit.png" width="100%" alt="Home page">
-
-#### Reviews
-<img src="assets/imgs/review.png" width="100%" alt="Home page">
-
-
-
 ## 🧰Tools
 
 ### 
